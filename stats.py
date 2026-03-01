@@ -7,6 +7,7 @@ do_average = False
 do_count = False
 do_trimmed = False
 do_median = False
+do_biggest = False
 filename = None
 
 def usage(msg=None):
@@ -35,9 +36,20 @@ def obs(values):
     return len(values)
 
 def trimmedmean(values):
-    # Partner will implement this
-    pass
+    if not values:
+        return None
 
+    sorted_vals = sorted(values)
+    n = len(sorted_vals)
+
+    k = int(n * 0.05)
+
+    trimmed = sorted_vals[k : n - k]
+
+    if not trimmed:
+        return None
+
+    return sum(trimmed) / len(trimmed)
 # -------------------------
 # Command line parsing
 # -------------------------
@@ -68,6 +80,9 @@ while args:
 
     elif arg == "-n":
     	do_count = True
+   
+    elif arg == "-b":
+	do_biggest = True
 
     elif arg == "-t":
     	do_trimmed = True
@@ -119,5 +134,10 @@ if do_median:
 if do_count:
     print(obs(numbers))
 
+<<<<<<< HEAD
 if do_trimmed:
     print(trimmedmean(numbers))
+=======
+if do_biggest:
+    print(biggest(numbers))
+>>>>>>> df02da303ed7c45fe670f725b0def71f115193e9
