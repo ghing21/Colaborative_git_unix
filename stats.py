@@ -6,6 +6,7 @@ column = None
 do_average = False
 do_count = False
 do_trimmed = False
+do_frequent = False
 do_median = False
 do_biggest = False
 filename = None
@@ -48,8 +49,15 @@ def trimmedmean(values):
 
     if not trimmed:
         return None
-
     return sum(trimmed) / len(trimmed)
+
+def frequent(values):
+    if not values:
+        return None
+    counts = {}
+    for v in values:
+        counts[v] = counts.get(v, 0) + 1
+    return max(counts, key=counts.get)
 # -------------------------
 # Command line parsing
 # -------------------------
@@ -86,6 +94,9 @@ while args:
 
     elif arg == "-t":
     	do_trimmed = True
+     
+    elif arg == "-f":
+    	do_frequent = True
     else:
         usage("Too many arguments or unknown option")
 
@@ -133,11 +144,10 @@ if do_median:
 
 if do_count:
     print(obs(numbers))
-
-<<<<<<< HEAD
 if do_trimmed:
-    print(trimmedmean(numbers))
-=======
+    print(trimmedmean(numbers)
 if do_biggest:
     print(biggest(numbers))
->>>>>>> df02da303ed7c45fe670f725b0def71f115193e9
+
+if do_frequent:
+    print(frequent(numbers))
