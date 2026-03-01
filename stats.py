@@ -3,19 +3,25 @@ import sys
 
 # Option variables
 column = None
+do_average = False
 filename = None
 
 def usage(msg=None):
     if msg:
         print(msg, "\n")
-    print("Usage: stat.py [-c <positiveinteger>] <filename>")
+    print("Usage: stat.py [-c <positiveinteger>] [-a] <filename>")
     sys.exit(1)
+
+def average(values):
+    if not values:
+        return None
+    return sum(values) / len(values)
 
 # -------------------------
 # Command line parsing
 # -------------------------
-args = sys.argv[:]   # copy
-args.pop(0)          # remove program name
+args = sys.argv[:]
+args.pop(0)
 
 while args:
     arg = args.pop(0)
@@ -29,6 +35,9 @@ while args:
                 raise ValueError
         except ValueError:
             usage("Column number must be a positive integer")
+
+    elif arg == "-a":
+        do_average = True
 
     elif filename is None:
         filename = arg
@@ -50,15 +59,12 @@ try:
             parts = line.strip().split("\t")
 
             if column is not None:
-                # Read only the specified column
                 try:
                     value = float(parts[column - 1])
                     numbers.append(value)
                 except (IndexError, ValueError):
-                    # Ignore malformed lines or non-numeric values
                     pass
             else:
-                # Read all numeric values from all columns
                 for p in parts:
                     try:
                         numbers.append(float(p))
@@ -68,4 +74,10 @@ try:
 except FileNotFoundError:
     usage(f"File not found: {filename}")
 
-
+# -------------------------
+# Option: -a (print average)
+# -------------------------
+if do_average:
+    avg = average(numbers)
+    if avg is not None:
+        print(avg)
