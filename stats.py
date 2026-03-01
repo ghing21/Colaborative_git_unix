@@ -6,6 +6,7 @@ column = None
 do_average = False
 do_count = False
 do_median = False
+do_biggest = False
 filename = None
 
 def usage(msg=None):
@@ -32,6 +33,12 @@ def median(values):
 
 def obs(values):
     return len(values)
+
+
+def biggest(values):
+    if not values:
+        return None
+    return max(values)
 
 # -------------------------
 # Command line parsing
@@ -63,6 +70,9 @@ while args:
 
     elif arg == "-n":
     	do_count = True
+   
+    elif arg == "-b":
+	do_biggest = True
 
     else:
         usage("Too many arguments or unknown option")
@@ -111,3 +121,6 @@ if do_median:
 
 if do_count:
     print(obs(numbers))
+
+if do_biggest:
+    print(biggest(numbers))
