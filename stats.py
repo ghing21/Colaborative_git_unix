@@ -5,6 +5,7 @@ import sys
 column = None
 do_average = False
 do_count = False
+do_trimmed = False
 do_median = False
 filename = None
 
@@ -32,6 +33,10 @@ def median(values):
 
 def obs(values):
     return len(values)
+
+def trimmedmean(values):
+    # Partner will implement this
+    pass
 
 # -------------------------
 # Command line parsing
@@ -64,6 +69,8 @@ while args:
     elif arg == "-n":
     	do_count = True
 
+    elif arg == "-t":
+    	do_trimmed = True
     else:
         usage("Too many arguments or unknown option")
 
@@ -111,3 +118,6 @@ if do_median:
 
 if do_count:
     print(obs(numbers))
+
+if do_trimmed:
+    print(trimmedmean(numbers))
