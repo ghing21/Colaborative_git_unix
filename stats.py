@@ -4,6 +4,7 @@ import sys
 # Option variables
 column = None
 do_average = False
+do_count = False
 do_median = False
 filename = None
 
@@ -28,6 +29,9 @@ def median(values):
         return sorted_vals[mid]
     else:
         return (sorted_vals[mid - 1] + sorted_vals[mid]) / 2
+
+def obs(values):
+    return len(values)
 
 # -------------------------
 # Command line parsing
@@ -56,6 +60,9 @@ while args:
 
     elif filename is None:
         filename = arg
+
+    elif arg == "-n":
+    	do_count = True
 
     else:
         usage("Too many arguments or unknown option")
@@ -101,3 +108,6 @@ if do_median:
     med = median(numbers)
     if med is not None:
         print(med)
+
+if do_count:
+    print(obs(numbers))
