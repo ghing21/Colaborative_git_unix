@@ -4,18 +4,30 @@ import sys
 # Option variables
 column = None
 do_average = False
+do_median = False
 filename = None
 
 def usage(msg=None):
     if msg:
         print(msg, "\n")
-    print("Usage: stat.py [-c <positiveinteger>] [-a] <filename>")
+    print("Usage: stat.py [-c <positiveinteger>] [-a] [-m] <filename>")
     sys.exit(1)
 
 def average(values):
     if not values:
         return None
     return sum(values) / len(values)
+
+def median(values):
+    if not values:
+        return None
+    sorted_vals = sorted(values)
+    n = len(sorted_vals)
+    mid = n // 2
+    if n % 2 == 1:
+        return sorted_vals[mid]
+    else:
+        return (sorted_vals[mid - 1] + sorted_vals[mid]) / 2
 
 # -------------------------
 # Command line parsing
@@ -38,6 +50,9 @@ while args:
 
     elif arg == "-a":
         do_average = True
+
+    elif arg == "-m":
+        do_median = True
 
     elif filename is None:
         filename = arg
@@ -75,9 +90,14 @@ except FileNotFoundError:
     usage(f"File not found: {filename}")
 
 # -------------------------
-# Option: -a (print average)
+# Options: -a and -m
 # -------------------------
 if do_average:
     avg = average(numbers)
     if avg is not None:
         print(avg)
+
+if do_median:
+    med = median(numbers)
+    if med is not None:
+        print(med)
